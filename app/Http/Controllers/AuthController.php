@@ -20,21 +20,29 @@ class AuthController extends Controller
 
         $credentials = $request->only('email', 'password');
 
-        if (!$token = JWTAuth::attempt($credentials)) {
-            return response()->json(['error' => 'Invalid credentials'], 401);
-        }
-
-//        if (!JWTAuth::attempt($credentials)){
+//        if (!$token = JWTAuth::attempt($credentials)) {
 //            return response()->json(['error' => 'Invalid credentials'], 401);
 //        }
-//        else{
-//            $token = JWTAuth::attempt($credentials) ;
-//        }
 
-        return response()->json([
-            'message' => 'Login successful',
-            'token' => $token,
-            'token_type' => 'Bearer'
-        ]);
+
+        $token = JWTAuth::attempt($credentials);
+
+        if ($token){
+            return response()->json([
+                'message' => 'Login successful',
+                'token' => $token,
+                'token_type' => 'Bearer'
+            ]);
+
+        }else{
+            return response()->json(['error' => 'Invalid credentials'], 401) ;
+        }
+//
+//
+//        return response()->json([
+//            'message' => 'Login successful',
+//            'token' => $token,
+//            'token_type' => 'Bearer'
+//        ]);
     }
 }
