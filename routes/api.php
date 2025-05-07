@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\StudentApiController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\API\ApiControllerForSanctum;
+use App\Http\Controllers\API\StudentShareControllerApi;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -12,26 +13,30 @@ Route::get('/user', function (Request $request) {
 
 Route::post('/sanctum/login',[ApiControllerForSanctum::class,'login']);
 
-Route::middleware('auth:sanctum')->group(function(){
+//student share api;
 
-    Route::get('/student/list',[ApiControllerForSanctum::class,'index']);
-    Route::get('/student/list/{id}',[ApiControllerForSanctum::class,'find']);
-    Route::post('/student/store',[ApiControllerForSanctum::class,'store']);
-    Route::post('/student/update/{id}',[ApiControllerForSanctum::class,'update']);
-
-    Route::get('/student/delete/{id}',[ApiControllerForSanctum::class,'delete']);
-});
+Route::get('/students',[StudentShareControllerApi::class,'allStudents']);
+Route::get('/students/{id}',[StudentShareControllerApi::class,'singleStudent']);
+Route::post('/students-add',[StudentShareControllerApi::class,'storeStudent']);
 
 
 
+//sanctum;
+
+
+//Route::middleware('auth:sanctum')->group(function(){
+//
+//    Route::get('/student/list',[ApiControllerForSanctum::class,'index']);
+//    Route::get('/student/list/{id}',[ApiControllerForSanctum::class,'find']);
+//    Route::post('/student/store',[ApiControllerForSanctum::class,'store']);
+//    Route::post('/student/update/{id}',[ApiControllerForSanctum::class,'update']);
+//
+//    Route::get('/student/delete/{id}',[ApiControllerForSanctum::class,'delete']);
+//});
 
 
 
-
-
-
-
-//jwt
+//jwt;
 //Route::post('/login', [AuthController::class, 'login']);
 //
 //Route::middleware('auth:api')->group(function() {
